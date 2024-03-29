@@ -11,15 +11,15 @@ const order = new Schema({
         type: String,
         required: true
     },
-    MainImg: {
-        type: String,
-        required: true
-    },
     pax: {
         type: Number,
         required: true
     },
     price: {
+        type: Number,
+        required: true
+    },
+    dp: {
         type: Number,
         required: true
     },
@@ -31,6 +31,22 @@ const order = new Schema({
         type: String,
         enum: ['pending', 'confirmed', 'cancelled'],
         default: 'pending'
+    },
+    firstName: {
+        type: String,
+        required: true
+    },
+    lastName: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
+    },
+    phone: {
+        type: String,
+        required: true
     }
 });
 

@@ -1,8 +1,9 @@
 <template>
-    <div v-show="tru" class=" fixed inset-0 flex justify-center items-center bg-black bg-opacity-75 z-50">
+    <div v-show="tru" class="pl-3 sm:pl-0 fixed inset-0 flex justify-center items-center bg-black bg-opacity-75 z-50">
         <div v-show="form" class="h-40 relative">
             <div class="bg-black -mt-48">
-                <div class="flex justify-between px-10 py-2 bg-ocean border-[3px] border-black relative -top-2 -left-2">
+                <div
+                    class="flex justify-between px-6 sm:px-10 py-2 bg-ocean border-[3px] border-black relative -top-2 -left-2">
                     <div class=" text-sunny font-Karantina text-3xl">
                         <h1>Booking Form!</h1>
                     </div>
@@ -15,9 +16,9 @@
                     </div>
                 </div>
                 <div v-show="packageDatas"
-                    class="py-4 px-10 shadow-md bg-sunny border-[3px] border-black relative -top-2 -left-2">
+                    class="py-4 px-6 sm:px-10 shadow-md bg-sunny border-[3px] border-black relative -top-2 -left-2">
                     <div>
-                        <div class="pt-4 pb-1">
+                        <div class="pt-2 sm:pt-4 pb-1">
                             <label class="block text-black text-xl font-Karantina" for="">Package
                                 Selected</label>
                             <div>
@@ -66,7 +67,7 @@
                         </div>
                     </div>
                     <div>
-                        <div class="pb-4 pt-1">
+                        <div class="pb-2 sm:pb-4 pt-1">
                             <label class="block text-black text-xl font-Karantina" for="">Pax</label>
                             <div class="w-28">
                                 <div class="bg-sunny border-2 border-black">
@@ -78,11 +79,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="mb-4">
+                        <div class="mb-2 sm:mb-4">
                             <label class="block text-black text-xl font-Karantina" for="">Price</label>
                             <div>
                                 <h1
-                                    class=" bg-sunny w-[450px] pl-2 font-saira font-normal text-xl pt-1 h-10 border-2 border-black">
+                                    class=" bg-sunny w-[300px] sm:w-[450px] pl-2 font-saira font-normal text-xl pt-1 h-10 border-2 border-black">
                                     Rp. {{ packagePrice }}
                                 </h1>
                             </div>
@@ -91,10 +92,15 @@
                             <label class="block text-black text-xl font-Karantina">Total Price</label>
                             <div>
                                 <h1
-                                    class=" bg-sunny w-[450px] pl-2 font-saira font-normal text-xl pt-1 h-10 border-2 border-black">
+                                    class=" bg-sunny w-[300px] sm:w-[450px] pl-2 font-saira font-normal text-xl pt-1 h-10 border-2 border-black">
                                     Rp. {{ pax * packagePrice }}
                                 </h1>
                             </div>
+                        </div>
+                        <div class="mb-1">
+                            <label class="block -mb-2 text-black text-xl font-Karantina">Date of Travel</label>
+                            <input type="date" v-model="dateTraveling"
+                                class="border-2 font-saira font-normal border-black inline-block py-1 px-3 w-[300px] sm:w-[450px] h-8 text-black text-lg tracking-wider bg-sunny" />
                         </div>
                         <div class="my-4 pt-4 flex justify-end">
                             <div
@@ -109,31 +115,31 @@
                 </div>
 
                 <div v-show="userDatas">
-                    <div class="py-4 px-10 shadow-md bg-sunny border-[3px] border-black relative -top-2 -left-2">
-                        <div class="mb-1">
+                    <div class="py-4 px-6 sm:px-10 shadow-md bg-sunny border-[3px] border-black relative -top-2 -left-2">
+                        <div class="mb-3 sm:mb-1">
                             <label class="block -mb-1 text-black text-xl font-Karantina">First Name</label>
                             <input type="text" v-model="firstName"
-                                class="border font-saira font-normal border-black inline-block py-1 px-3 w-[450px] h-8 text-black text-lg tracking-wider bg-sunny" />
+                                class="border font-saira font-normal border-black py-1 px-3 w-[300px] sm:w-[450px] h-8 text-black text-lg tracking-wider bg-sunny" />
                         </div>
-                        <div class="mb-1">
+                        <div class="mb-3 sm:mb-1">
                             <label class="block -mb-1 text-black text-xl font-Karantina">Last Name</label>
                             <input type="text" v-model="lastName"
-                                class="border font-saira font-normal border-black inline-block py-1 px-3 w-[450px] h-8 text-black text-lg tracking-wider bg-sunny" />
+                                class="border font-saira font-normal border-black py-1 px-3 w-[300px] sm:w-[450px] h-8 text-black text-lg tracking-wider bg-sunny" />
                         </div>
-                        <div class="mb-1">
+                        <div class="mb-3 sm:mb-1">
                             <label class="block -mb-1 text-black text-xl font-Karantina">Email</label>
                             <input type="text" v-model="email"
-                                class="border font-saira font-normal border-black inline-block py-1 px-3 w-[450px] h-8 text-black text-lg tracking-wider bg-sunny" />
+                                class="border font-saira font-normal border-black py-1 px-3 w-[300px] sm:w-[450px] h-8 text-black text-lg tracking-wider bg-sunny" />
                         </div>
-                        <div class="mb-1">
+                        <div class="mb-3 sm:mb-1">
                             <label class="block -mb-1 text-black text-xl font-Karantina">Phone</label>
                             <input type="text" v-model="phone"
-                                class="border font-saira font-normal border-black inline-block py-1 px-3 w-[450px] h-8 text-black text-lg tracking-wider bg-sunny" />
+                                class="border font-saira font-normal border-black py-1 px-3 w-[300px] sm:w-[450px] h-8 text-black text-lg tracking-wider bg-sunny" />
                         </div>
                         <div class="flex justify-around space-x-8 pb-4">
                             <div
                                 class="bg-black mt-10 ml-2 transition-transform duration-300 ease-in-out transform hover:scale-110">
-                                <button @click="prev" class="border-2 border-black w-[150px] text-center px-4 py-2 text-xl bg-sunny shadow-md text-black relative
+                                <button @click="prev" class="border-2 border-black w-[120px] sm:w-[150px] text-center px-4 py-2 text-xl bg-sunny shadow-md text-black relative
                                 -top-2 -left-2">
                                     <h1 class="font-Karantina">
                                         Prev
@@ -142,7 +148,7 @@
                             </div>
                             <div
                                 class="bg-black mt-10 ml-2 transition-transform duration-300 ease-in-out transform hover:scale-110">
-                                <button @click="order" class="border-2 border-black w-[250px] text-center px-4 py-2 text-xl bg-sunny shadow-md text-black relative
+                                <button @click="order" class="border-2 border-black w-[120px] sm:w-[250px] text-center px-4 py-2 text-xl bg-sunny shadow-md text-black relative
                                 -top-2 -left-2">
                                     <h1 @click="pay" class="font-Karantina">
                                         Pay
@@ -193,6 +199,7 @@ export default {
             email: this.email,
             phone: this.phone,
             form: true,
+            travelDate: null,
         }
     },
     mounted() {
@@ -206,6 +213,7 @@ export default {
                 packageName: this.selectedPackage,
                 price: this.packagePrice,
                 pax: this.pax,
+                dateTraveling: this.dateTraveling,
                 firstName: this.firstName,
                 lastName: this.lastName,
                 phone: this.phone,
@@ -242,6 +250,7 @@ export default {
                     packageName: this.selectedPackage,
                     pax: this.pax,
                     price: this.packagePrice,
+                    dateTraveling: this.dateTraveling,
                     firstName: this.firstName,
                     lastName: this.lastName,
                     email: this.email,

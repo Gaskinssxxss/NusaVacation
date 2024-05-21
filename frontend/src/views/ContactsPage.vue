@@ -1,7 +1,7 @@
 <template>
-  <div class="px-2 py-2">
+  <div class="px-1 sm:px-2 py-1 sm:py-2">
     <div class="bg-sunny border-4 border-black">
-      <div>
+      <div class="-mt-6 sm:-mt-4 md:-mt-0">
         <navGateLogin />
       </div>
 

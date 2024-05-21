@@ -17,6 +17,9 @@ module.exports = {
         'Karantina': 'Karantina',
         'saira': 'Saira Condensed'
       },
+      margin: {
+        '85': '480px',
+      },
       width: {
         '90': '20rem',
         '91': '21rem',
@@ -44,7 +47,7 @@ module.exports = {
         '102': '35rem',
         '105': '30rem',
         '110': '50rem'
-      }
+      },
     },
     screens: {
       'sm': '640px',
@@ -62,7 +65,7 @@ module.exports = {
       '2xl': '1536px',
       // => @media (min-width: 1280px) { ... }
 
-      '3xl': '1540zpx',
+      '3xl': '1540px',
       // => @media (min-width: 1536px) { ... }
     }
   },

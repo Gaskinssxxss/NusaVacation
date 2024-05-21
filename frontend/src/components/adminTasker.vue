@@ -1,16 +1,23 @@
 <template>
-    <div>
-        <div class="flex">
-            <div class="w-full bg-maryjane ">
-                <div class="py-5 bg-black text-maryjane relative -left-3 -top-3 border-2 border-maryjane">
-                    <h1 class="font-Karantina font-bold text-center text-6xl">
-                        ADMIN TASK
-                    </h1>
+    <div class="bg-black h-full">
+        <div>
+            <div class="flex justify-end pr-4">
+                <div class="w-40 h-20">
+                    <div class="bg-maryjane transition-transform duration-300 ease-in-out transform hover:scale-110">
+                        <RouterLink to="/admin">
+                            <div
+                                class="relative -top-2 -left-2 bg-black border-2 border-maryjane font-Karantina text-3xl text-maryjane">
+                                <h1 class="py-2 text-center">
+                                    Dashboard
+                                </h1>
+                            </div>
+                        </RouterLink>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="py-20">
+        <div>
             <div class="bg-black">
                 <div class="bg-black px-5 py-3 mt-3 relative -left-4 -top-4 border-2 border-maryjane">
                     <div class="flex justify-start space-x-2 mt-4 pl-5">
@@ -24,68 +31,50 @@
                     </div>
                 </div>
                 <div>
-                    <div class="bg-black px-5 relative -left-4 -top-4 border-b-4 border-r-4 border-l-4 border-maryjane text-maryjane py-20 space-y-14">
+                    <div
+                        class="bg-black px-5 relative -left-4 -top-4 border-b-4 border-r-4 border-l-4 border-maryjane text-maryjane py-10 space-y-14">
                         <div class="flex">
-                            <div class="flex justify-start pl-20">
-                                <div class="bg-maryjane">
-                                    <div
-                                        class="px-44 py-8 bg-black relative -left-3 -top-3 border-2 border-maryjane">
-                                        <h1 class="font-Karantina text-6xl font-bold">
+                            <div class="flex justify-start pl-10">
+                                <div class="bg-maryjane flex w-105 h-24">
+                                    <div class="bg-black w-105 h-24 relative -left-3 -top-3 border-2 border-maryjane">
+                                        <h1 class="font-Karantina text-4xl font-bold text-center pt-6">
                                             AUTOMATION TRANSACTION CHECKING
                                         </h1>
                                     </div>
                                 </div>
                             </div>
                             <div>
-                                <active />
+                                <active @active="handleActive" @deactive="handleDeactive" />
                             </div>
                         </div>
 
                         <div class="flex">
-                            <div class="flex justify-start pl-20">
-                                <div class="bg-maryjane">
-                                    <div
-                                        class="px-44 py-8 bg-black relative -left-3 -top-3 border-2 border-maryjane">
-                                        <h1 class="font-Karantina text-6xl font-bold">
-                                            AUTOMATION TRANSACTION CHECKING
+                            <div class="flex justify-start pl-10">
+                                <div class="bg-maryjane flex w-105 h-24">
+                                    <div class="bg-black w-105 h-24 relative -left-3 -top-3 border-2 border-maryjane">
+                                        <h1 class="font-Karantina text-4xl font-bold text-center pt-6">
+                                            AUTOMATION INVENTORY CHECKING
                                         </h1>
                                     </div>
                                 </div>
                             </div>
                             <div>
-                                <active />
+                                <active @active="handleActive" @deactive="handleDeactive" />
                             </div>
                         </div>
 
                         <div class="flex">
-                            <div class="flex justify-start pl-20">
-                                <div class="bg-maryjane">
-                                    <div
-                                        class="px-44 py-8 bg-black relative -left-3 -top-3 border-2 border-maryjane">
-                                        <h1 class="font-Karantina text-6xl font-bold">
-                                            AUTOMATION TRANSACTION CHECKING
+                            <div class="flex justify-start pl-10">
+                                <div class="bg-maryjane flex w-105 h-24">
+                                    <div class="bg-black w-105 h-24 relative -left-3 -top-3 border-2 border-maryjane">
+                                        <h1 class="font-Karantina text-4xl font-bold text-center pt-6">
+                                            AUTOMATION ATTACKING CHECKING
                                         </h1>
                                     </div>
                                 </div>
                             </div>
                             <div>
-                                <active />
-                            </div>
-                        </div>
-
-                        <div class="flex">
-                            <div class="flex justify-start pl-20">
-                                <div class="bg-maryjane">
-                                    <div
-                                        class="px-44 py-8 bg-black relative -left-3 -top-3 border-2 border-maryjane">
-                                        <h1 class="font-Karantina text-6xl font-bold">
-                                            AUTOMATION TRANSACTION CHECKING
-                                        </h1>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <active />
+                                <active @active="handleActive" @deactive="handleDeactive" />
                             </div>
                         </div>
                     </div>
@@ -96,25 +85,42 @@
 </template>
 
 <script>
+import Api from "@/services/api";
 import active from "../components/activeDeactive.vue"
 export default {
     components: {
         active
     },
-    data (){
+    data() {
         return {
             fols: true,
             tru: false
         }
     },
     methods: {
-        active(){
-            this.fols = false
-            this.tru = true
+        handleActive() {
+            console.log("active");
+            this.fols = false;
+            this.tru = true;
+            this.runPythonScript();
+            setInterval(() => {
+                this.runPythonScript();
+            }, 30 * 60 * 1000);
         },
-        deactive(){
-            this.fols = true
-            this.tru = false
+        runPythonScript() {
+            Api.post('runPythonScript')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.message);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        },
+        handleDeactive() {
+            console.log("deactive");
+            this.fols = true;
+            this.tru = false;
         }
     }
 }

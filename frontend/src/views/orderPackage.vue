@@ -1,5 +1,5 @@
 <template>
-  <div class="px-3 py-3">
+  <div class="px-1 sm:px-2 py-1 sm:py-2">
     <div class="bg-sunny border-t-4 border-r-4 border-l-4 border-b-2 border-black">
       <div class="ml-6 3xl:-ml-0 px-6">
         <navGateLogin />

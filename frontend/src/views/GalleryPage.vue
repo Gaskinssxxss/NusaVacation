@@ -1,11 +1,11 @@
 <template>
-  <div class="px-2 py-2">
+  <div class="px-1 sm:px-2 py-1 sm:py-2">
     <div class="bg-sunny border-4 border-black">
-      <div>
+      <div class="-mt-6 sm:-mt-4 md:-mt-0">
         <navGateLogin />
       </div>
 
-      <div class="px-2 pb-10 -ml-4">
+      <div class="-mt-3 sm:mt-0 px-2 pb-4 sm:pb-10 ml-0 sm:-ml-4">
         <jpg />
       </div>
 

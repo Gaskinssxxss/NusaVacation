@@ -7,6 +7,8 @@ const { SECRET, MAX_AGE } = require("../consts")
 const midtransClient = require('midtrans-client');
 const { requireLogin } = require("../middleware/authentication");
 const { requireAdmin } = require("../middleware/authentication");
+const nodemailer = require('nodemailer');
+
 
 const router = Router();
 
@@ -14,12 +16,24 @@ const createJwt = (payload) => {
     return jwt.sign({ payload }, SECRET, { expiresIn: MAX_AGE });
 }
 
+router.post("/users/register", (req, res) => {
+    const { username, email, password } = req.body;
+    User.create({ username, email, password })
+        .then(() => {
+            return res.status(200).json({ message: "success" })
+        })
+        .catch(error => {
+            console.log(error);
+            return res.status(400).json({ message: "failed", error })
+        });
+});
+
 /**
  * @route POST api/users/login
  * @desc Login user
  * @access Public
  */
-router.post("/admin", (req, res) => {
+router.post("/users/login", (req, res) => {
     const { email, password } = req.body;
     User.findOne({ email: email, password: password })
         .then(user => {
@@ -36,12 +50,23 @@ router.post("/admin", (req, res) => {
         });
 });
 
+
+/**
+ * @route POST api/users/logout
+ * @desc Log user out
+ * @access Public
+ */
+router.post("/users/logout", (req, res) => {
+    res.clearCookie("auth");
+    return res.status(200).json({ message: "success" })
+});
+
 /**
  * @route GET api/users
  * @desc Get authenticated user
  * @access Private
  */
-router.get("/admin/dashboard", requireLogin, requireAdmin, (req, res) => {
+router.get("/users", requireLogin, (req, res) => {
     const token = req.cookies.auth;
     const _id = jwt.verify(token, SECRET).payload;
     User.findOne({ _id }, { username: 1, email: 1, registrationDate: 1 })
@@ -103,16 +128,49 @@ router.get(`/packages/:idx`, (req, res) => {
 
 router.post("/order", async (req, res) => {
     try {
-        const { packageName, pax, price, firstName, lastName, email, phone } = req.body;
+        const { id, packageName, pax, price, firstName, lastName, email, phone, dateTraveling } = req.body;
 
         const lastOrder = await Order.findOne().sort({ idx: -1 });
         const idx = lastOrder ? lastOrder.idx + 1 : 1;
 
         const newOrder = new Order({
+            id: id,
             idx: idx,
             package: packageName,
             price: price * pax,
             pax: pax,
+            dateTraveling: dateTraveling,
+            status: 'pending',
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            phone: phone,
+        });
+
+        await newOrder.save();
+
+        return res.status(200).json({ message: "Order placed successfully", data: newOrder });
+    } catch (error) {
+        console.error('Error placing order:', error);
+        return res.status(500).json({ message: "Failed to place order", error: error.message });
+    }
+});
+
+router.post("/order/dp", async (req, res) => {
+    try {
+        const { id, packageName, pax, price, firstName, dp, lastName, email, phone, dateTraveling } = req.body;
+
+        const lastOrder = await Order.findOne().sort({ idx: -1 });
+        const idx = lastOrder ? lastOrder.idx + 1 : 1;
+
+        const newOrder = new Order({
+            id: id,
+            idx: idx,
+            package: packageName,
+            price: price * pax,
+            pax: pax,
+            dateTraveling: dateTraveling,
+            dp: dp,
             status: 'pending',
             firstName: firstName,
             lastName: lastName,
@@ -147,14 +205,14 @@ router.get("/packages/:idx/order/:idx", async (req, res) => {
 });
 
 let snap = new midtransClient.Snap({
-    isProduction: false,
+    isProduction: true,
     serverKey: process.env.EXPRESS_SERVER_KEY || '',
     clientKey: process.env.EXPRESS_SERVER_KEY || ''
 });
 
 router.post("/midtrans/createTransaction", async (req, res) => {
     try {
-        const { id, idx, packageName, price, dp, pax, firstName, lastName, phone, email, total } = req.body;
+        const { id, idx, packageName, price, pax, dateTraveling, firstName, lastName, phone, email, total } = req.body;
 
         let parameter = {
             "transaction_details": {
@@ -166,7 +224,8 @@ router.post("/midtrans/createTransaction", async (req, res) => {
                 "id": idx,
                 "price": price,
                 "quantity": pax,
-                "name": packageName
+                "name": packageName,
+                "TravelingDate": dateTraveling,
             },
             "customer_details": {
                 "first_name": firstName,
@@ -187,7 +246,7 @@ router.post("/midtrans/createTransaction", async (req, res) => {
 
 router.post("/midtrans/createTransaction/dp", async (req, res) => {
     try {
-        const { id, idx, packageName, price, dp, pax, firstName, lastName, phone, email } = req.body;
+        const { id, idx, packageName, price, dp, pax, dateTraveling, firstName, lastName, phone, email } = req.body;
 
         let parameter = {
             "transaction_details": {
@@ -199,7 +258,8 @@ router.post("/midtrans/createTransaction/dp", async (req, res) => {
                 "id": idx,
                 "price": price,
                 "quantity": pax,
-                "name": packageName
+                "name": packageName,
+                "TravelingDate": dateTraveling,
             },
             "customer_details": {
                 "first_name": firstName,
@@ -217,6 +277,58 @@ router.post("/midtrans/createTransaction/dp", async (req, res) => {
         return res.status(500).json({ message: "Failed to create transaction", error: error.message });
     }
 });
+
+const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    auth: {
+        user: 'siemprecomandante666@gmail.com',
+        pass: 'izwr vhzu dvqh fjuo'
+    },
+    secure: true
+});
+
+router.post('/email', (req, res) => {
+    const { to, subject, text } = req.body;
+    const mailOptions = {
+        from: 'siemprecomandante666@gmail.com',
+        to: to,
+        subject: subject,
+        text: text
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.log('Error occurred:', error.message);
+            return res.status(500).json('Gagal mengirim email.');
+        }
+        console.log('Email berhasil dikirim:', info.response);
+        res.status(200).json({ message: "email send!", message_id: info.messageId });
+    });
+});
+
+// const { spawn } = require('child_process');
+// const path = require('path');
+
+// router.post('/runPythonScript', (req, res) => {
+//     const pythonPath = 'C:\\Users\\62823\\AppData\\Local\\Programs\\Python\\Python311\\python.exe';
+//     const scriptPath = path.join(__dirname, 'test.py');
+
+//     const pyScript = spawn(pythonPath, [scriptPath]);
+
+//     pyScript.stdout.on('data', (data) => {
+//         console.log(`stdout: ${data}`);
+//     });
+
+//     pyScript.stderr.on('data', (data) => {
+//         console.error(`stderr: ${data}`);
+//     });
+
+//     pyScript.on('close', (code) => {
+//         console.log(`child process exited with code ${code}`);
+//         res.send({ message: 'Script executed successfully!' });
+//     });
+// });
 
 
 module.exports = router;

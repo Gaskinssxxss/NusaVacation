@@ -1,11 +1,11 @@
 <template>
-  <div class="px-3 py-3">
+  <div class="px-1 sm:px-2 py-1 sm:py-2">
     <div class="bg-sunny border-4 border-black">
-      <div class="ml-4 3xl:-ml-0 px-4">
+      <div class="-mt-9 sm:-mt-4 md:-mt-0">
         <navGateLogin />
       </div>
 
-      <div class="-mt-2 3xl:mt-5">
+      <div class="-mt-4 sm:-mt-2 3xl:-mt-1">
         <detailJpg />
       </div>
 

@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 const Package = require("./package");
 
 const order = new Schema({
+    id: {
+        type: String,
+        required: true
+    },
     idx: {
         type: Number,
         required: true
@@ -21,6 +25,10 @@ const order = new Schema({
     },
     dp: {
         type: Number,
+        required: false
+    },
+    dateTraveling: {
+        type: String,
         required: true
     },
     dateRegistration: {

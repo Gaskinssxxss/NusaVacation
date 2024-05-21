@@ -1,5 +1,5 @@
 <template>
-  <div class="px-3 py-3">
+  <div class="px-1 sm:px-2 py-1 sm:py-2">
     <div class="bg-ocean border-4 border-black">
       <div>
         <navGate />

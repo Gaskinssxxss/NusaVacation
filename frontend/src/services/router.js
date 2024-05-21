@@ -11,17 +11,62 @@ import contact from "@/views/ContactsPage";
 import about from "@/views/AboutPage";
 import adminDashbord from "@/views/adminDashboard";
 import adminTask from "@/views/adminTask";
-import adminUser from "@/views/AdminUser";
+import adminLogs from "@/views/AdminLogs";
 import adminTransaction from "@/views/AdminTransactionValidation"
+import fnQ from "@/views/faqAndGuidePage"
+import service from "@/views/ourServicesPage.vue";
+import login from "@/views/loginPage"
+import regist from "@/views/registerPage";
+
 
 const routes = [
+    {
+        path: "/register",
+        name: "Register",
+        component: regist,
+        meta: {
+            title: "Regist",
+            authRequired: false,
+            authForbidden: false
+        }
+    },
+    {
+        path: "/login",
+        name: "Login Page",
+        component: login,
+        meta: {
+            title: "Login",
+            authRequired: false,
+            authForbidden: false
+        }
+    },
     {
         path: "/admin",
         name: "Admin Dashboard",
         component: adminDashbord,
         meta: {
             title: "Admin Dashboard",
-            authRequired: true,
+            authRequired: false,
+            authForbidden: false
+        }
+    },
+    {
+        path: "/f&q",
+        name: "Faq & Guides",
+        component: fnQ,
+        meta: {
+            title: "Faq & Guides",
+            authRequired: false,
+            authForbidden: false
+        }
+    },
+    {
+        path: "/services",
+        name: "Services",
+        component: service,
+        meta: {
+            title: "Services",
+            authRequired: false,
             authForbidden: false
         }
     },
@@ -31,17 +76,17 @@ const routes = [
         component: adminTask,
         meta: {
             title: "Admin Task",
-            authRequired: true,
+            authRequired: false,
             authForbidden: false
         }
     },
     {
-        path: "/adminUser",
-        name: "Admin User",
-        component: adminUser,
+        path: "/adminLogs",
+        name: "Admin Logs",
+        component: adminLogs,
         meta: {
-            title: "Admin User",
-            authRequired: true,
+            title: "Admin Logs",
+            authRequired: false,
             authForbidden: false
         }
     },
@@ -51,7 +96,7 @@ const routes = [
         component: adminTransaction,
         meta: {
             title: "Admin Transaction",
-            authRequired: true,
+            authRequired: false,
             authForbidden: false
         }
     },

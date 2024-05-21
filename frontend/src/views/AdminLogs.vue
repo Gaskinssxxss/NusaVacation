@@ -3,22 +3,23 @@
         <forbiddenPage />
     </div>
 
-    <div v-if="user" class="bg-black py-10">
-        <div class="px-14 pb-100">
-            <transaction />
+    <div v-if="user" class="bg-black pt-4 pb-10">
+        <div class="px-20 py-5">
+            <logs />
         </div>
     </div>
 </template>
 
 <script>
-import transaction from "../components/adminUserTransaction.vue";
+import logs from "../components/adminLogs.vue";
 import forbiddenPage from '@/components/forbiddenPage.vue';
 
 export default {
     components: {
-        transaction,
-        forbiddenPage
-    }, computed: {
+        logs,
+        forbiddenPage,
+    },
+    computed: {
         user() {
             return this.$store.state.user
         }

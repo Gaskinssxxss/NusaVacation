@@ -11,15 +11,6 @@
             </router-link>
 
             <div class="flex -space-x-3 md:space-x-4 -mr-24 md:-mr-20 3xl:-mr-6">
-                <router-link to="/services">
-                    <div>
-                        <div class="bg-black transition-transform duration-300 ease-in-out transform hover:scale-110">
-                            <div class="border-2 border-black px-2 sm:px-4 md:px-6 py-2 bg-sunny relative -left-1 -top-1">
-                                <h1>OUR SERVICES</h1>
-                            </div>
-                        </div>
-                    </div>
-                </router-link>
                 <div>
                     <div class="px-6">
                         <div class="bg-black transition-transform duration-300 ease-in-out transform hover:scale-110">
